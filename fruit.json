@@ -13,5 +13,10 @@
         "name": "mango",
         "color": "yellow",
         "sell": 150
+    },
+    {
+        "name": "banana",
+        "color": "yellow",
+        "sell": 30
     }
 ]
