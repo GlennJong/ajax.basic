@@ -10,24 +10,21 @@
 
     $(document).ready(function() {
 
+    var xmlhttp = new XMLHttpRequest();
 
-      $.ajax({
-        url: "http://opendata2.epa.gov.tw/AQI.json",
-        type: "GET",
-        dataType: "json",
-        success: function(content) {
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        document.getElementById("content").innerHTML=xmlhttp.responseText;
+        console.log(xmlhttp)
+      } else {
+        console.log('fails')
+      }
+    }
+    xmlhttp.open("GET","air.json",true);
+    xmlhttp.send();
 
-          var item = $('li')
 
-          for (var i = 0, j = content.length; i < j; i ++) {
-            $('.list').append('<li>' + content[i].SiteName + ': ' + content[i].Status + '</li>')
-          }
-        },
-        
-        error: function() {
-          alert("ERROR!!!");
-        }
-      });
+
     })
 
 
@@ -35,7 +32,7 @@
 
   <ul class="list"></ul>
 
-
+  <div id="content"></div>
 
 </body>
 </html>
