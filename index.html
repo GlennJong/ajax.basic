@@ -3,31 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+  <div id="MaterialIcons"></div>
 <script>
 
-    $(document).ready(function() {
+    function getData() {
+      var xmlhttp = new XMLHttpRequest();
+      var src = "https://raw.githubusercontent.com/google/material-design-icons/master/iconfont/MaterialIcons-Regular.ijmap"
 
-    var xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("content").innerHTML=xmlhttp.responseText;
-        console.log(xmlhttp)
-      } else {
-        console.log('fails')
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          var data = xmlhttp.responseText;
+          new Data(data)
+        }
       }
+      xmlhttp.open("GET", src, true);
+      xmlhttp.send();
     }
-    xmlhttp.open("GET","air.json",true);
-    xmlhttp.send();
 
+    function Data(arr) {
+      var data = JSON.parse(arr);
+      var dataProp = Object.keys(data.icons);
+      var dataValue = Object.values(data.icons);
+      var newArr = []
+      for (var i = 0, j = dataProp.length; i < j; i++) {
+        var iconName = dataValue[i].name,
+            iconFont = iconName.replace(/ /g, '_').toLowerCase();
+        var item = {
+          'unicode': dataProp[i],
+          'name': dataValue[i].name,
+          'font': iconFont
+        }
+        newArr.push(item)
+      }
+      Print(newArr)
+    }
 
+    function Print(arr) {
+      this.data = arr;
+      this.length = arr.length;
 
-    })
+      var $icon = document.createElement('i');
+      $icon.setAttribute('class', 'material-icons');
+      $icon.textContent = this.data[0].font
 
+      document.getElementById('MaterialIcons').appendChild($icon)
 
+    }
+
+    window.init = new getData()
 </script>
 
   <ul class="list"></ul>
